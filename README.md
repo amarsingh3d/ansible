@@ -121,5 +121,48 @@ tmpfs           197M     0  197M   0% /sys/fs/cgroup
 tmpfs            40M     0   40M   0% /run/user/1000
 
 ```
+**Step 6- Install Apache on remote host**
 
+After testing connectivity and running some ad-hoc command, let's install apache on host machine.
+Create apache.yaml file first.
 
+```
+$sudo vi apache.yaml
+```
+Added following line to apache.yaml
+```
+---
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: Update cache
+      apt: update_cache=true
+      become: true
+    - name: install apache2
+      apt: name=apache2 state=latest
+```
+Save and exit from the file.
+
+Lets run Ansible apache playbook using command below.
+```
+$ ansible-playbook apache.yaml
+```
+OutPut
+
+```
+
+PLAY [azure] ******************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************
+ok: [13.82.198.66]
+
+TASK [Update cache] ***********************************************************************************************************
+changed: [13.82.198.66]
+
+TASK [install apache2] ********************************************************************************************************
+ok: [13.82.198.66]
+
+PLAY RECAP ********************************************************************************************************************
+13.82.198.66               : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+To verify the Installation of Apache you can open the browser and hit the weberver IP, Upon successfull installation you will see Apache page.
