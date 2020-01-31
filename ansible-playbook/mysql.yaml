@@ -1,9 +1,9 @@
-- hosts: webservers
-   become: yes
-   tasks:
-     - name: "update cache"
-       apt: update_cache=true
-     - name: "Install MySQL-Server"
-       apt: name=mysql-server state=latest
-     - name: "Start service"
-       action: service name=mysql state=started
+- hosts: opsawsweb
+  become: true
+  tasks:
+    - name: "update cache"
+      apt: update_cache=true
+    - name: "Install MySQL-Server"
+      apt: name=mysql-server state=latest
+    - name: "Start service"
+      action: service name=mysql state=started

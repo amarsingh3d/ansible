@@ -67,14 +67,13 @@ $ vi /etc/ansible/hosts
 ```
 Go to end of the file and add your host details as follow:
 ```
-
-[webservers]
-webserver1 ansible_host=13.82.198.66
-
-[webservers:vars]
+[opsawsweb]
+opsawsweb1 ansible_host=18.234.93.9
+[opsawsweb:vars]
 ansible_user=ubuntu
 ansible_python_interpreter=/usr/bin/python3
-ansible_ssh_private_key_file=~/.ssh/azurevm_rsa
+ansible_ssh_private_key_file=~/.ssh/opsaws_rsa
+
 ```
 Save and exit from the file.
 
@@ -92,7 +91,7 @@ $ ansible -m ping all
 You should get output similar to this:
 ```
 root@amar:~/ansible-playbook# ansible -m ping all
-webserver1 | SUCCESS => {
+opsawsweb1 | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
@@ -110,7 +109,7 @@ output:
 
 ```
 
-webserver1 | CHANGED | rc=0 >>
+opsawsweb1 | CHANGED | rc=0 >>
 Filesystem      Size  Used Avail Use% Mounted on
 udev            184M     0  184M   0% /dev
 tmpfs            40M  664K   39M   2% /run
@@ -134,14 +133,16 @@ $sudo vi apache.yaml
 Added following line to apache.yaml
 ```
 ---
-- hosts: webservers
-  become: yes
+- hosts: opsawsweb
   tasks:
     - name: Update cache
       apt: update_cache=true
       become: true
     - name: install apache2
       apt: name=apache2 state=latest
+    - name: Start Service
+      action: service name=apache2 state=started
+
 ```
 Save and exit from the file.
 
@@ -152,20 +153,23 @@ $ ansible-playbook apache.yaml
 OutPut
 
 ```
-
-PLAY [azure] ******************************************************************************************************************
+PLAY [opsawsweb] **************************************************************************************************************
 
 TASK [Gathering Facts] ********************************************************************************************************
-ok: [13.82.198.66]
+ok: [opsawsweb1]
 
 TASK [Update cache] ***********************************************************************************************************
-changed: [13.82.198.66]
+changed: [opsawsweb1]
 
 TASK [install apache2] ********************************************************************************************************
-ok: [13.82.198.66]
+ok: [opsawsweb1]
+
+TASK [Start Service] **********************************************************************************************************
+ok: [opsawsweb1]
 
 PLAY RECAP ********************************************************************************************************************
-13.82.198.66               : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+opsawsweb1                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
 ```
 To verify the Installation of Apache you can open the browser and hit the weberver IP, Upon successfull installation you will see Apache page.
 
@@ -173,15 +177,15 @@ To verify the Installation of Apache you can open the browser and hit the weberv
 
 we can install MySQL in the way as we did apache. Let's create mysql.yaml playbook for MySQL installation as follow
  ```
- - hosts: webservers
-   become: yes
-   tasks:
-     - name: "update cache"
-       apt: update_cache=true
-     - name: "Install MySQL-Server"
-       apt: name=mysql-server state=latest
-     - name: "Start service"
-       action: service name=mysql state=started
+ - hosts: opsawsweb
+  become: true
+  tasks:
+    - name: "update cache"
+      apt: update_cache=true
+    - name: "Install MySQL-Server"
+      apt: name=mysql-server state=latest
+    - name: "Start service"
+      action: service name=mysql state=started
 
 ```
 Save and Exit from the file.
@@ -195,6 +199,23 @@ $ ansible-playbook mysql.yaml
 after successful execution of playbook output should be like this:
 
 ```
+PLAY [opsawsweb] **************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************
+ok: [opsawsweb1]
+
+TASK [update cache] ***********************************************************************************************************
+changed: [opsawsweb1]
+
+TASK [Install MySQL-Server] ***************************************************************************************************
+ok: [opsawsweb1]
+
+TASK [Start service] **********************************************************************************************************
+ok: [opsawsweb1]
+
+PLAY RECAP ********************************************************************************************************************
+opsawsweb1                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
 
 
 ```
