@@ -1,5 +1,6 @@
 # ansible Administration
 This Document Describe about the Ansible Installation and administration
+![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Fintellipaat.com%2Fblog%2Ftutorial%2Fdevops-tutorial%2Fansible-tutorial%2F&psig=AOvVaw0XTZ6naQJtNOWtZ49qVmX9&ust=1580557366480000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLi23ZXhrecCFQAAAAAdAAAAABAU)
 
 **Prerequisites** 
 
