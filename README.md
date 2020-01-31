@@ -1,4 +1,4 @@
-# ansible
+# ansible Administration
 This Document Describe about the Ansible Installation and administration
 
 **Prerequisites** 
@@ -166,3 +166,33 @@ PLAY RECAP *********************************************************************
 13.82.198.66               : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 To verify the Installation of Apache you can open the browser and hit the weberver IP, Upon successfull installation you will see Apache page.
+
+**Step 6- Install MySQL on remote host**
+
+we can install MySQL in the way as we did apache. Let's create mysql.yaml playbook for MySQL installation as follow
+ ```
+ - hosts: webservers
+   become: yes
+   tasks:
+     - name: "update cache"
+       apt: update_cache=true
+     - name: "Install MySQL-Server"
+       apt: name=mysql-server state=latest
+     - name: "Start service"
+       action: service name=mysql state=started
+
+```
+Save and Exit from the file.
+
+Let's run ansible playbook to perform MySQL installation
+
+```
+$ ansible-playbook mysql.yaml
+
+```
+after successful execution of playbook output should be like this:
+
+```
+
+
+```
