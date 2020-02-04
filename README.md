@@ -70,7 +70,7 @@ Go to end of the file and add your host details as follow:
 [opsawsweb]
 -opsawsweb1 ansible_host=18.234.93.9
 [opsawsweb:vars]
-#ansible_user=ubuntu
+# ansible_user=ubuntu
 +ansible_python_interpreter=/usr/bin/python3
 !ansible_ssh_private_key_file=~/.ssh/opsaws_rsa
 
