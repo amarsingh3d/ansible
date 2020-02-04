@@ -66,7 +66,7 @@ Edit inventory file and add your host details.
 $ vi /etc/ansible/hosts
 ```
 Go to end of the file and add your host details as follow:
-```php
+```
 [opsawsweb]
 opsawsweb1 ansible_host=<font color="red">18.234.93.9!</font>
 [opsawsweb:vars]
