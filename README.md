@@ -68,7 +68,7 @@ $ vi /etc/ansible/hosts
 Go to end of the file and add your host details as follow:
 ```php
 [opsawsweb]
-opsawsweb1 ansible_host=<p style='color:red'>18.234.93.9.</p>
+opsawsweb1 ansible_host=<font color="red">18.234.93.9!</font>
 [opsawsweb:vars]
 ansible_user=ubuntu
 ansible_python_interpreter=/usr/bin/python3
